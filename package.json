@@ -4,7 +4,6 @@
   "description": "Website Gionail Design com agendamento online e painel administrativo",
   "main": "index.html",
   "scripts": {
-    "build": "echo 'Build static files'",
     "dev": "npx -y serve .",
     "start": "npx -y serve ."
   },
