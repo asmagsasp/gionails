@@ -98,7 +98,7 @@
             background: white;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
+            overflow-x: auto;
         }
 
         table {
@@ -269,16 +269,249 @@
             font-weight: 600;
         }
 
-        @media (max-width: 768px) {
+        .btn-label-mobile {
+            display: none;
+        }
 
-            th:nth-child(4),
-            td:nth-child(4) {
+        .client-phone-sub {
+            display: none;
+        }
+
+        .service-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .service-pill i {
+            color: var(--primary);
+        }
+
+        .cell-date i, .cell-time i {
+            color: #888;
+            margin-right: 4px;
+        }
+
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem 0.8rem;
+            }
+
+            header {
+                padding: 1rem 1.2rem;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .dashboard-header h2 {
+                font-size: 1.3rem;
+            }
+
+            .dashboard-header .btn-login {
+                width: 100%;
+                padding: 0.8rem;
+                text-align: center;
+                justify-content: center;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+
+            /* 2x2 Grid para estatísticas no mobile */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+                margin-bottom: 1.2rem;
+            }
+
+            .stat-card {
+                padding: 1rem 0.8rem;
+                border-radius: 12px;
+            }
+
+            .stat-card h3 {
+                font-size: 0.75rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .stat-card .value {
+                font-size: 1.6rem;
+            }
+
+            /* Abas de filtro com rolagem horizontal suave */
+            .filters-bar {
+                display: flex;
+                gap: 0.5rem;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            .filters-bar::-webkit-scrollbar {
                 display: none;
             }
 
-            /* Hide service on small screens */
-            .stats-grid {
-                grid-template-columns: 1fr;
+            .filter-btn {
+                white-space: nowrap;
+                flex-shrink: 0;
+                padding: 0.5rem 0.85rem;
+                font-size: 0.78rem;
+            }
+
+            /* Transformação da tabela em Cards modernos no celular */
+            .booking-table-container {
+                background: transparent;
+                box-shadow: none;
+                border-radius: 0;
+                overflow: visible;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tbody tr {
+                background: white;
+                border-radius: 16px;
+                padding: 1.2rem;
+                margin-bottom: 1rem;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+                border: 1px solid #eaeaea;
+                position: relative;
+            }
+
+            td {
+                padding: 0.35rem 0;
+                border: none;
+                text-align: left;
+            }
+
+            .cell-client {
+                padding-bottom: 0.6rem;
+                border-bottom: 1px solid #f0f0f0;
+                margin-bottom: 0.6rem;
+                padding-right: 95px; /* Espaço para o badge de status fixo à direita */
+            }
+
+            .client-title {
+                font-size: 1.15rem;
+                font-weight: 700;
+                color: var(--dark);
+                word-break: break-word;
+            }
+
+            .client-phone-sub {
+                display: block;
+                font-size: 0.82rem;
+                color: #777;
+                margin-top: 0.25rem;
+            }
+
+            .client-phone-sub i {
+                color: var(--primary);
+                margin-right: 3px;
+            }
+
+            .cell-status {
+                position: absolute;
+                top: 1.2rem;
+                right: 1.2rem;
+                padding: 0;
+                width: auto;
+            }
+
+            .cell-date, .cell-time, .cell-service {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.9rem;
+                color: #444;
+            }
+
+            .cell-date::before {
+                content: "Data:";
+                font-weight: 600;
+                color: #888;
+                font-size: 0.8rem;
+                min-width: 55px;
+            }
+
+            .cell-time::before {
+                content: "Horário:";
+                font-weight: 600;
+                color: #888;
+                font-size: 0.8rem;
+                min-width: 55px;
+            }
+
+            .cell-service::before {
+                content: "Serviço:";
+                font-weight: 600;
+                color: #888;
+                font-size: 0.8rem;
+                min-width: 55px;
+            }
+
+            .service-pill {
+                background: #fdf6e7;
+                color: #b38600;
+                padding: 0.25rem 0.6rem;
+                border-radius: 6px;
+                font-weight: 600;
+                font-size: 0.85rem;
+                display: inline-flex;
+                align-items: center;
+            }
+
+            .cell-actions {
+                padding-top: 0.9rem;
+                margin-top: 0.6rem;
+                border-top: 1px solid #f0f0f0;
+            }
+
+            .cell-actions::before {
+                content: "Ações:";
+                display: block;
+                font-weight: 600;
+                color: #888;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                margin-bottom: 0.5rem;
+                letter-spacing: 0.5px;
+            }
+
+            .cell-actions .actions {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+                gap: 0.5rem;
+                width: 100%;
+            }
+
+            .btn-icon {
+                width: 100%;
+                height: 38px;
+                border-radius: 8px;
+                gap: 0.4rem;
+                padding: 0 0.5rem;
+                font-size: 0.82rem;
+                font-weight: 600;
+            }
+
+            .btn-label-mobile {
+                display: inline;
+                font-size: 0.78rem;
             }
         }
     </style>
@@ -479,18 +712,23 @@
                 const formattedDate = b.date ? b.date.split('-').reverse().join('/') : '-';
                 
                 tr.innerHTML = `
-                    <td><strong>${escapeHtml(b.name)}</strong></td>
-                    <td>${formattedDate}</td>
-                    <td>${b.time || '-'}</td>
-                    <td>${escapeHtml(b.service || '-')}</td>
-                    <td><span class="status-badge status-${b.status}">${b.status === 'pending' ? 'Pendente' : (b.status === 'done' ? 'Concluído' : 'Cancelado')}</span></td>
-                    <td class="actions">
-                        ${b.status === 'pending' ? `
-                            <button class="btn-icon btn-done" onclick="updateStatus(${b.id}, 'done')" title="Marcar como Concluído"><i class="fas fa-check"></i></button>
-                            <button class="btn-icon btn-cancel" onclick="cancelBooking(${b.id})" title="Cancelar Agendamento"><i class="fas fa-ban"></i></button>
-                        ` : ''}
-                        <button class="btn-icon btn-whatsapp" onclick="openWhatsApp('${b.phone}')" title="Conversar no WhatsApp"><i class="fab fa-whatsapp"></i></button>
-                        <button class="btn-icon btn-delete" onclick="deleteBooking(${b.id})" title="Excluir Definitivamente"><i class="fas fa-trash-alt"></i></button>
+                    <td class="cell-client">
+                        <div class="client-title">${escapeHtml(b.name)}</div>
+                        ${b.phone ? `<div class="client-phone-sub"><i class="fas fa-phone-alt"></i> ${escapeHtml(b.phone)}</div>` : ''}
+                    </td>
+                    <td class="cell-date"><i class="far fa-calendar-alt"></i> ${formattedDate}</td>
+                    <td class="cell-time"><i class="far fa-clock"></i> ${b.time || '-'}</td>
+                    <td class="cell-service"><span class="service-pill"><i class="fas fa-magic"></i> ${escapeHtml(b.service || '-')}</span></td>
+                    <td class="cell-status"><span class="status-badge status-${b.status}">${b.status === 'pending' ? 'Pendente' : (b.status === 'done' ? 'Concluído' : 'Cancelado')}</span></td>
+                    <td class="cell-actions">
+                        <div class="actions">
+                            ${b.status === 'pending' ? `
+                                <button class="btn-icon btn-done" onclick="updateStatus(${b.id}, 'done')" title="Marcar como Concluído"><i class="fas fa-check"></i><span class="btn-label-mobile">Concluir</span></button>
+                                <button class="btn-icon btn-cancel" onclick="cancelBooking(${b.id})" title="Cancelar Agendamento"><i class="fas fa-ban"></i><span class="btn-label-mobile">Cancelar</span></button>
+                            ` : ''}
+                            <button class="btn-icon btn-whatsapp" onclick="openWhatsApp('${b.phone}')" title="Conversar no WhatsApp"><i class="fab fa-whatsapp"></i><span class="btn-label-mobile">WhatsApp</span></button>
+                            <button class="btn-icon btn-delete" onclick="deleteBooking(${b.id})" title="Excluir Definitivamente"><i class="fas fa-trash-alt"></i><span class="btn-label-mobile">Excluir</span></button>
+                        </div>
                     </td>
                 `;
                 list.appendChild(tr);
