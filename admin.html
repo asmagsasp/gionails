@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | Gionails80</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #D4AF37;
+            --dark: #1a1a1a;
+            --light: #fefefe;
+            --grey: #f4f4f4;
+            --danger: #e74c3c;
+            --success: #2ecc71;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--grey);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .booking-table-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 1.2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #fafafa;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff8e1;
+            color: #f39c12;
+        }
+
+        .status-done {
+            background: #e8f5e9;
+            color: #2ecc71;
+        }
+
+        .status-canceled {
+            background: #ffebee;
+            color: #e74c3c;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-icon {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-done {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-cancel {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-icon:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Login Overlay */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+        }
+
+        .login-box {
+            background: #222;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .btn-login {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+
+            th:nth-child(4),
+            td:nth-child(4) {
+                display: none;
+            }
+
+            /* Hide service on small screens */
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Login Screen -->
+    <div id="loginOverlay">
+        <div class="login-box">
+            <h1 class="logo">NAIL<span>DESIGN</span></h1>
+            <p>Área de Administração</p>
+            <input type="password" id="adminPass" placeholder="Senha de Acesso">
+            <button class="btn-login" onclick="checkLogin()">Entrar</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">NAIL<span>DESIGN</span> Admin</div>
+        <div class="user-info">Olá, Giovana! <a href="#" onclick="logout()"
+                style="color: var(--primary); margin-left: 10px; font-size: 0.8rem;">Sair</a></div>
+    </header>
+
+    <main>
+        <div class="dashboard-header">
+            <h2>Gerenciamento de Agendas</h2>
+            <button class="btn-login" style="width: auto; padding: 0.6rem 1.2rem;" onclick="loadBookings()"><i
+                    class="fas fa-sync"></i> Atualizar</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Pendentes</h3>
+                <div class="value" id="countPending">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Para Hoje</h3>
+                <div class="value" id="countToday">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Executadas</h3>
+                <div class="value" id="countDone">0</div>
+            </div>
+        </div>
+
+        <div class="booking-table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Data</th>
+                        <th>Horário</th>
+                        <th>Serviço</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingList">
+                    <!-- Links will be loaded here -->
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 3rem; color: #888;">Nenhum agendamento
+                            encontrado ou carregando...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script type="module">
+        import { executeQuery } from './assets/js/db.js';
+
+        window.checkLogin = function () {
+            const pass = document.getElementById('adminPass').value;
+            if (pass === "1234") { // Senha padrão simples
+                document.getElementById('loginOverlay').style.display = 'none';
+                localStorage.setItem('admin_logged', 'true');
+                loadBookings();
+            } else {
+                alert("Senha incorreta!");
+            }
+        };
+
+        window.logout = function () {
+            localStorage.removeItem('admin_logged');
+            location.reload();
+        };
+
+        // Verificação de sessão
+        if (localStorage.getItem('admin_logged') === 'true') {
+            document.getElementById('loginOverlay').style.display = 'none';
+        }
+
+        window.loadBookings = async function () {
+            const list = document.getElementById('bookingList');
+            list.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem;">Carregando dados...</td></tr>';
+
+            try {
+                const bookings = await executeQuery("SELECT * FROM bookings ORDER BY date DESC, time ASC");
+                list.innerHTML = '';
+
+                let pending = 0;
+                let today = 0;
+                let done = 0;
+
+                const todayDate = new Date().toISOString().split('T')[0];
+
+                if (!bookings || bookings.length === 0) {
+                    list.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem; color: #888;">Nenhum agendamento encontrado.</td></tr>';
+                }
+
+                bookings.forEach(b => {
+                    if (b.status === 'pending') pending++;
+                    if (b.status === 'done') done++;
+                    if (b.date === todayDate && b.status === 'pending') today++;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${b.name}</strong></td>
+                        <td>${b.date.split('-').reverse().join('/')}</td>
+                        <td>${b.time}</td>
+                        <td>${b.service}</td>
+                        <td><span class="status-badge status-${b.status}">${b.status === 'pending' ? 'Pendente' : (b.status === 'done' ? 'Concluído' : 'Cancelado')}</span></td>
+                        <td class="actions">
+                            ${b.status === 'pending' ? `
+                                <button class="btn-icon btn-done" onclick="updateStatus(${b.id}, 'done')" title="Marcar como Concluído"><i class="fas fa-check"></i></button>
+                                <button class="btn-icon btn-cancel" onclick="cancelBooking(${b.id}, '${b.name}', '${b.date}', '${b.time}', '${b.phone}')" title="Cancelar Agenda"><i class="fas fa-times"></i></button>
+                            ` : ''}
+                            <button class="btn-icon btn-whatsapp" onclick="window.open('https://wa.me/${b.phone}', '_blank')" title="Conversar com Cliente"><i class="fab fa-whatsapp"></i></button>
+                        </td>
+                    `;
+                    list.appendChild(tr);
+                });
+
+                document.getElementById('countPending').innerText = pending;
+                document.getElementById('countToday').innerText = today;
+                document.getElementById('countDone').innerText = done;
+            } catch (err) {
+                console.error("Erro ao carregar:", err);
+                list.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem; color: var(--danger);">Erro ao conectar com o Banco de Dados.</td></tr>';
+            }
+        };
+
+        window.updateStatus = async function (id, status) {
+            try {
+                await executeQuery("UPDATE bookings SET status = ? WHERE id = ?", [status, id]);
+                loadBookings();
+            } catch (err) {
+                alert("Erro ao atualizar status.");
+            }
+        };
+
+        window.cancelBooking = async function (id, name, date, time, phone) {
+            const confirmCancel = confirm(`Deseja realmente cancelar o agendamento de ${name}?`);
+            if (confirmCancel) {
+                try {
+                    await updateStatus(id, 'canceled');
+
+                    // Formatar mensagem de cancelamento
+                    const formattedDate = date.split('-').reverse().join('/');
+                    const message = `Olá ${name}! Aqui é da Gionails. Infelizmente precisamos cancelar o seu agendamento para o dia ${formattedDate} às ${time}. Gostaríamos de reagendar para um outro horário?`;
+
+                    // Limpar o número de telefone (remover caracteres não numéricos)
+                    const cleanPhone = phone.replace(/\D/g, '');
+                    const finalPhone = cleanPhone.startsWith('55') ? cleanPhone : '55' + cleanPhone;
+
+                    // Abre o WhatsApp para o cliente
+                    const url = `https://wa.me/${finalPhone}?text=${encodeURIComponent(message)}`;
+                    window.open(url, '_blank');
+                } catch (err) {
+                    alert("Erro ao cancelar.");
+                }
+            }
+        };
+
+        if (localStorage.getItem('admin_logged') === 'true') {
+            loadBookings();
+        }
+    </script>
+</body>
+
+</html>

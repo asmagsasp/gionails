@@ -1,0 +1,22 @@
+{
+  "name": "gionail-design",
+  "version": "1.0.0",
+  "description": "Website Gionail Design com agendamento online e painel administrativo",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve .",
+    "start": "npx -y serve ."
+  },
+  "keywords": [
+    "nail-design",
+    "landing-page",
+    "turso",
+    "booking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@libsql/client": "^0.17.0"
+  }
+}
