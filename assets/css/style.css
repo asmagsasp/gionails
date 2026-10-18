@@ -420,6 +420,16 @@ nav a:hover {
     color: #888;
 }
 
+.blurred-text {
+    filter: blur(6px);
+    user-select: none;
+    -webkit-user-select: none;
+    display: inline-block;
+    letter-spacing: 0.5px;
+    transition: filter 0.3s ease;
+    cursor: default;
+}
+
 .map-placeholder {
     background: white;
     height: 100%;
