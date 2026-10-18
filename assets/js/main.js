@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 Aguardo confirmação!`;
 
             const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/5519933008727?text=${encodedMessage}`;
+            const whatsappUrl = `https://wa.me/5519999995149?text=${encodedMessage}`;
 
             // Salvar no Banco de Dados (Turso)
             try {
