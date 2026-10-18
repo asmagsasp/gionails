@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Gionails80</title>
+    <title>Painel Administrativo | GioNails Multi-Tenant</title>
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,6 +24,10 @@
             --success: #2ecc71;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--grey);
@@ -36,20 +40,61 @@
         header {
             background: var(--dark);
             color: white;
-            padding: 1.5rem 2rem;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            letter-spacing: 2px;
+            font-size: 1.4rem;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .logo span {
             color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .salon-badge {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.35rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .btn-live {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+
+        .btn-live:hover {
+            color: var(--primary);
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            color: #bbb;
         }
 
         main {
@@ -59,30 +104,96 @@
             width: 100%;
         }
 
+        /* Tabs de Navegação */
+        .admin-nav-tabs {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e5e5e5;
+            padding-bottom: 0.5rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .admin-nav-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .admin-tab-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 0.75rem 1.4rem;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #555;
+            cursor: pointer;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .admin-tab-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .admin-tab-btn.active {
+            background: var(--dark);
+            color: var(--primary);
+            border-color: var(--dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-view {
+            display: none;
+        }
+
+        .tab-view.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Dashboard Header */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            gap: 1.2rem;
+            margin-bottom: 1.8rem;
         }
 
         .stat-card {
             background: white;
-            padding: 1.5rem;
+            padding: 1.4rem;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             text-align: center;
         }
 
         .stat-card h3 {
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: #888;
             text-transform: uppercase;
             margin-bottom: 0.5rem;
@@ -94,6 +205,41 @@
             color: var(--dark);
         }
 
+        .filters-bar {
+            display: flex;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: #666;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--dark);
+            color: var(--primary);
+            border-color: var(--dark);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Tabela Desktop */
         .booking-table-container {
             background: white;
             border-radius: 20px;
@@ -126,6 +272,7 @@
             border-radius: 50px;
             font-size: 0.75rem;
             font-weight: 600;
+            display: inline-block;
         }
 
         .status-pending {
@@ -188,87 +335,6 @@
             opacity: 0.9;
         }
 
-        .filters-bar {
-            display: flex;
-            gap: 0.6rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: white;
-            border: 1px solid #e0e0e0;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.82rem;
-            color: #666;
-            transition: all 0.25s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .filter-btn.active {
-            background: var(--dark);
-            color: var(--primary);
-            border-color: var(--dark);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        /* Login Overlay */
-        #loginOverlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            color: white;
-        }
-
-        .login-box {
-            background: #222;
-            padding: 3rem;
-            border-radius: 20px;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .login-box input {
-            width: 100%;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 10px;
-            border: 1px solid #444;
-            background: #333;
-            color: white;
-            font-size: 1.1rem;
-        }
-
-        .btn-login {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            font-weight: 600;
-        }
-
         .btn-label-mobile {
             display: none;
         }
@@ -287,11 +353,251 @@
             color: var(--primary);
         }
 
-        .cell-date i, .cell-time i {
+        .cell-date i,
+        .cell-time i {
             color: #888;
             margin-right: 4px;
         }
 
+        /* Cards de Configuração / Formulários */
+        .config-card {
+            background: white;
+            border-radius: 18px;
+            padding: 2rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .config-card h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.25rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .config-card h3 i {
+            color: var(--primary);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-field.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-field label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-field input,
+        .form-field textarea,
+        .form-field select {
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-family: inherit;
+            font-size: 0.95rem;
+            background: #fafafa;
+            transition: border-color 0.2s;
+        }
+
+        .form-field input:focus,
+        .form-field textarea:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+        }
+
+        .color-picker-box {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .color-picker-input {
+            width: 48px;
+            height: 44px;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            background: transparent;
+        }
+
+        .preset-badge {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s;
+        }
+
+        .preset-badge:hover {
+            transform: scale(1.15);
+        }
+
+        .btn-primary-action {
+            background: var(--dark);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.85rem 1.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary-action:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Galeria e Serviços */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .item-card {
+            background: #fafafa;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .item-card h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+
+        .item-card p {
+            margin: 0 0 0.8rem 0;
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .item-card .price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.15rem;
+        }
+
+        .photo-card {
+            border-radius: 12px;
+            overflow: hidden;
+            background: white;
+            border: 1px solid #eee;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-card .photo-info {
+            padding: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Login Overlay */
+        #loginOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            padding: 1rem;
+        }
+
+        .login-box {
+            background: #222;
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
+        }
+
+        .login-box input,
+        .login-box select {
+            width: 100%;
+            padding: 0.9rem;
+            margin-bottom: 1.2rem;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #333;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .btn-login {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .btn-login:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Layout */
         @media (max-width: 768px) {
             main {
                 padding: 1rem 0.8rem;
@@ -304,68 +610,30 @@
             .dashboard-header {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 0.8rem;
-                margin-bottom: 1.2rem;
             }
 
             .dashboard-header h2 {
-                font-size: 1.3rem;
+                font-size: 1.25rem;
             }
 
-            .dashboard-header .btn-login {
-                width: 100%;
-                padding: 0.8rem;
-                text-align: center;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-            /* 2x2 Grid para estatísticas no mobile */
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 0.75rem;
-                margin-bottom: 1.2rem;
             }
 
             .stat-card {
-                padding: 1rem 0.8rem;
+                padding: 1rem 0.6rem;
                 border-radius: 12px;
             }
 
             .stat-card h3 {
-                font-size: 0.75rem;
-                margin-bottom: 0.3rem;
+                font-size: 0.72rem;
             }
 
             .stat-card .value {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
 
-            /* Abas de filtro com rolagem horizontal suave */
-            .filters-bar {
-                display: flex;
-                gap: 0.5rem;
-                overflow-x: auto;
-                padding-bottom: 0.5rem;
-                flex-wrap: nowrap;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: none;
-            }
-
-            .filters-bar::-webkit-scrollbar {
-                display: none;
-            }
-
-            .filter-btn {
-                white-space: nowrap;
-                flex-shrink: 0;
-                padding: 0.5rem 0.85rem;
-                font-size: 0.78rem;
-            }
-
-            /* Transformação da tabela em Cards modernos no celular */
             .booking-table-container {
                 background: transparent;
                 box-shadow: none;
@@ -402,7 +670,7 @@
                 padding-bottom: 0.6rem;
                 border-bottom: 1px solid #f0f0f0;
                 margin-bottom: 0.6rem;
-                padding-right: 95px; /* Espaço para o badge de status fixo à direita */
+                padding-right: 95px;
             }
 
             .client-title {
@@ -417,11 +685,6 @@
                 font-size: 0.82rem;
                 color: #777;
                 margin-top: 0.25rem;
-            }
-
-            .client-phone-sub i {
-                color: var(--primary);
-                margin-right: 3px;
             }
 
             .cell-status {
@@ -464,17 +727,6 @@
                 min-width: 55px;
             }
 
-            .service-pill {
-                background: #fdf6e7;
-                color: #b38600;
-                padding: 0.25rem 0.6rem;
-                border-radius: 6px;
-                font-weight: 600;
-                font-size: 0.85rem;
-                display: inline-flex;
-                align-items: center;
-            }
-
             .cell-actions {
                 padding-top: 0.9rem;
                 margin-top: 0.6rem;
@@ -489,7 +741,6 @@
                 font-size: 0.75rem;
                 text-transform: uppercase;
                 margin-bottom: 0.5rem;
-                letter-spacing: 0.5px;
             }
 
             .cell-actions .actions {
@@ -522,123 +773,503 @@
     <!-- Login Screen -->
     <div id="loginOverlay">
         <div class="login-box">
-            <h1 class="logo">NAIL<span>DESIGN</span></h1>
-            <p>Área de Administração</p>
-            <input type="password" id="adminPass" placeholder="Senha de Acesso">
-            <button class="btn-login" onclick="checkLogin()">Entrar</button>
+            <h1 class="logo" style="justify-content: center;">NAIL<span>DESIGN</span></h1>
+            <p style="color: #aaa; margin-top: 0; margin-bottom: 1.5rem; font-size: 0.9rem;">Área de Gestão & Personalização</p>
+            
+            <div style="text-align: left; margin-bottom: 0.4rem; font-size: 0.8rem; color: #888;">SELECIONE O SALÃO / SLUG</div>
+            <select id="loginSalonSelect">
+                <option value="gionails">Gio Nail Design (gionails)</option>
+            </select>
+
+            <div style="text-align: left; margin-bottom: 0.4rem; font-size: 0.8rem; color: #888;">SENHA DE ACESSO</div>
+            <input type="password" id="adminPass" placeholder="Senha do Salão ou Senha Master">
+            <button class="btn-login" onclick="checkLogin()"><i class="fas fa-lock-open"></i> Acessar Painel</button>
+            <p style="font-size: 0.75rem; color: #666; margin-top: 1rem;">(Padrão: <code>1234</code> | Super Admin: <code>adminmaster</code>)</p>
         </div>
     </div>
 
     <header>
-        <div class="logo">NAIL<span>DESIGN</span> Admin</div>
-        <div class="user-info">Olá, Giovana! <a href="#" onclick="logout()"
-                style="color: var(--primary); margin-left: 10px; font-size: 0.8rem;">Sair</a></div>
+        <div class="logo">
+            <i class="fas fa-gem" style="color: var(--primary);"></i>
+            NAIL<span>DESIGN</span>
+            <span class="salon-badge" id="headerSalonBadge">Gio Nail Design</span>
+        </div>
+        <div class="header-actions">
+            <!-- Seletor de Salão para o Master Admin -->
+            <select id="masterSalonSwitch" style="display: none; background: #2a2a2a; color: white; border: 1px solid var(--primary); padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.82rem;" onchange="switchSalon(this.value)">
+            </select>
+            <a href="/" target="_blank" class="btn-live" id="linkViewLive">
+                <i class="fas fa-external-link-alt"></i> Ver Meu Site
+            </a>
+            <div class="user-info">
+                <a href="#" onclick="logout()" style="color: var(--primary); text-decoration: none; font-weight: 600;">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </div>
+        </div>
     </header>
 
     <main>
-        <div class="dashboard-header">
-            <h2>Gerenciamento de Agendas</h2>
-            <button class="btn-login" style="width: auto; padding: 0.6rem 1.2rem;" onclick="loadBookings()"><i
-                    class="fas fa-sync"></i> Atualizar</button>
-        </div>
-
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3>Pendentes</h3>
-                <div class="value" id="countPending">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Para Hoje</h3>
-                <div class="value" id="countToday">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Executadas</h3>
-                <div class="value" id="countDone">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>Canceladas</h3>
-                <div class="value" id="countCanceled">0</div>
-            </div>
-        </div>
-
-        <div class="filters-bar">
-            <button class="filter-btn active" id="filter-btn-all" onclick="setFilter('all')">
-                <i class="fas fa-list"></i> Todos (<span id="tabCountAll">0</span>)
+        <!-- Navegação em Abas -->
+        <div class="admin-nav-tabs">
+            <button class="admin-tab-btn active" id="tab-btn-bookings" onclick="switchAdminTab('bookings')">
+                <i class="fas fa-calendar-check"></i> Agendamentos
             </button>
-            <button class="filter-btn" id="filter-btn-pending" onclick="setFilter('pending')">
-                <i class="fas fa-clock"></i> Pendentes (<span id="tabCountPending">0</span>)
+            <button class="admin-tab-btn" id="tab-btn-customize" onclick="switchAdminTab('customize')">
+                <i class="fas fa-paint-brush"></i> Personalizar Site
             </button>
-            <button class="filter-btn" id="filter-btn-today" onclick="setFilter('today')">
-                <i class="fas fa-calendar-day"></i> Para Hoje (<span id="tabCountToday">0</span>)
+            <button class="admin-tab-btn" id="tab-btn-services" onclick="switchAdminTab('services')">
+                <i class="fas fa-gem"></i> Meus Serviços
             </button>
-            <button class="filter-btn" id="filter-btn-done" onclick="setFilter('done')">
-                <i class="fas fa-check-circle"></i> Concluídos (<span id="tabCountDone">0</span>)
+            <button class="admin-tab-btn" id="tab-btn-gallery" onclick="switchAdminTab('gallery')">
+                <i class="fas fa-images"></i> Galeria de Fotos
             </button>
-            <button class="filter-btn" id="filter-btn-canceled" onclick="setFilter('canceled')">
-                <i class="fas fa-times-circle"></i> Cancelados (<span id="tabCountCanceled">0</span>)
+            <button class="admin-tab-btn" id="tab-btn-superadmin" style="display: none;" onclick="switchAdminTab('superadmin')">
+                <i class="fas fa-crown"></i> Super Admin (Criar Salão)
             </button>
         </div>
 
-        <div class="booking-table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Data</th>
-                        <th>Horário</th>
-                        <th>Serviço</th>
-                        <th>Status</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="bookingList">
-                    <!-- Links will be loaded here -->
-                    <tr>
-                        <td colspan="6" style="text-align: center; padding: 3rem; color: #888;">Nenhum agendamento
-                            encontrado ou carregando...</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- ABA 1: AGENDAMENTOS -->
+        <div id="view-bookings" class="tab-view active">
+            <div class="dashboard-header">
+                <h2>Gerenciamento de Agendas</h2>
+                <button class="btn-primary-action" style="padding: 0.6rem 1.2rem;" onclick="loadBookings()">
+                    <i class="fas fa-sync"></i> Atualizar
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Pendentes</h3>
+                    <div class="value" id="countPending">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Para Hoje</h3>
+                    <div class="value" id="countToday">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Executadas</h3>
+                    <div class="value" id="countDone">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Canceladas</h3>
+                    <div class="value" id="countCanceled">0</div>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <button class="filter-btn active" id="filter-btn-all" onclick="setFilter('all')">
+                    <i class="fas fa-list"></i> Todos (<span id="tabCountAll">0</span>)
+                </button>
+                <button class="filter-btn" id="filter-btn-pending" onclick="setFilter('pending')">
+                    <i class="fas fa-clock"></i> Pendentes (<span id="tabCountPending">0</span>)
+                </button>
+                <button class="filter-btn" id="filter-btn-today" onclick="setFilter('today')">
+                    <i class="fas fa-calendar-day"></i> Para Hoje (<span id="tabCountToday">0</span>)
+                </button>
+                <button class="filter-btn" id="filter-btn-done" onclick="setFilter('done')">
+                    <i class="fas fa-check-circle"></i> Concluídos (<span id="tabCountDone">0</span>)
+                </button>
+                <button class="filter-btn" id="filter-btn-canceled" onclick="setFilter('canceled')">
+                    <i class="fas fa-times-circle"></i> Cancelados (<span id="tabCountCanceled">0</span>)
+                </button>
+            </div>
+
+            <div class="booking-table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Data</th>
+                            <th>Horário</th>
+                            <th>Serviço</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingList">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 3rem; color: #888;">Carregando agendamentos...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 2: PERSONALIZAR SITE -->
+        <div id="view-customize" class="tab-view">
+            <div class="config-card">
+                <h3><i class="fas fa-palette"></i> Identidade Visual & Cores</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>Cor Primária do Site</label>
+                        <div class="color-picker-box">
+                            <input type="color" id="cfg_primary_color" class="color-picker-input" value="#D4AF37" onchange="previewColor(this.value)">
+                            <span id="colorHexText" style="font-weight: 700; font-family: monospace;">#D4AF37</span>
+                            <!-- Presets Rápidos -->
+                            <div style="display: flex; gap: 0.4rem; margin-left: 0.5rem;">
+                                <div class="preset-badge" style="background:#D4AF37;" title="Dourado Luxo" onclick="applyColorPreset('#D4AF37')"></div>
+                                <div class="preset-badge" style="background:#e84393;" title="Rosa Pink" onclick="applyColorPreset('#e84393')"></div>
+                                <div class="preset-badge" style="background:#8e44ad;" title="Roxo Requinte" onclick="applyColorPreset('#8e44ad')"></div>
+                                <div class="preset-badge" style="background:#00b894;" title="Verde Esmeralda" onclick="applyColorPreset('#00b894')"></div>
+                                <div class="preset-badge" style="background:#e17055;" title="Terracota" onclick="applyColorPreset('#e17055')"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label>Foto de Perfil / Sobre Mim (URL)</label>
+                        <input type="text" id="cfg_about_image" placeholder="Ex: assets/images/foto.jpg ou link web">
+                    </div>
+                    <div class="form-field">
+                        <label>Foto de Fundo do Topo / Hero (URL)</label>
+                        <input type="text" id="cfg_hero_image" placeholder="Ex: assets/images/banner.jpg ou link web">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-card">
+                <h3><i class="fas fa-signature"></i> Textos Principais</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>Nome do Salão / Profissional</label>
+                        <input type="text" id="cfg_name" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Subtítulo do Topo</label>
+                        <input type="text" id="cfg_subtitle" placeholder="Ex: Bem-vinda ao seu momento">
+                    </div>
+                    <div class="form-field full-width">
+                        <label>Frase Principal / Slogan (Hero)</label>
+                        <textarea id="cfg_tagline" placeholder="Ex: Arte & Sofisticação em Suas Mãos"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label>Título da Seção Sobre Mim</label>
+                        <input type="text" id="cfg_bio_title" placeholder="Ex: Paixão pelo que faço">
+                    </div>
+                    <div class="form-field full-width">
+                        <label>Texto da Minha História (Parágrafo 1)</label>
+                        <textarea id="cfg_bio_text1"></textarea>
+                    </div>
+                    <div class="form-field full-width">
+                        <label>Texto da Minha História (Parágrafo 2)</label>
+                        <textarea id="cfg_bio_text2"></textarea>
+                    </div>
+                    <div class="form-field">
+                        <label>Número Métrica 1</label>
+                        <input type="text" id="cfg_stat1_num" placeholder="500+">
+                    </div>
+                    <div class="form-field">
+                        <label>Texto Métrica 1</label>
+                        <input type="text" id="cfg_stat1_text" placeholder="Clientes Satisfeitas">
+                    </div>
+                    <div class="form-field">
+                        <label>Número Métrica 2</label>
+                        <input type="text" id="cfg_stat2_num" placeholder="5+">
+                    </div>
+                    <div class="form-field">
+                        <label>Texto Métrica 2</label>
+                        <input type="text" id="cfg_stat2_text" placeholder="Anos de Experiência">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-card">
+                <h3><i class="fab fa-whatsapp"></i> Contato & Localização</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>WhatsApp (com DDD)</label>
+                        <input type="text" id="cfg_phone" placeholder="19999995149">
+                    </div>
+                    <div class="form-field">
+                        <label>Instagram (sem @)</label>
+                        <input type="text" id="cfg_instagram" placeholder="gionails80">
+                    </div>
+                    <div class="form-field full-width">
+                        <label>Endereço Completo</label>
+                        <input type="text" id="cfg_address" placeholder="Rua..., 123 - Bairro - Cidade - SP">
+                    </div>
+                </div>
+                <button class="btn-primary-action" onclick="saveSalonSettings()">
+                    <i class="fas fa-save"></i> Salvar Todas as Alterações
+                </button>
+            </div>
+        </div>
+
+        <!-- ABA 3: MEUS SERVIÇOS -->
+        <div id="view-services" class="tab-view">
+            <div class="config-card">
+                <h3><i class="fas fa-plus-circle"></i> Adicionar Novo Serviço</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>Nome do Serviço</label>
+                        <input type="text" id="new_service_name" placeholder="Ex: Blindagem de Unhas" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Preço</label>
+                        <input type="text" id="new_service_price" placeholder="Ex: R$ 80,00">
+                    </div>
+                    <div class="form-field">
+                        <label>Ícone (Font Awesome)</label>
+                        <select id="new_service_icon">
+                            <option value="fas fa-gem">Gema / Joia (fas fa-gem)</option>
+                            <option value="fas fa-spa">Spa (fas fa-spa)</option>
+                            <option value="fas fa-paint-brush">Pincel / Arte (fas fa-paint-brush)</option>
+                            <option value="fas fa-heart">Coração (fas fa-heart)</option>
+                            <option value="fas fa-magic">Varinha Mágica (fas fa-magic)</option>
+                        </select>
+                    </div>
+                    <div class="form-field full-width">
+                        <label>Descrição do Serviço</label>
+                        <input type="text" id="new_service_desc" placeholder="Ex: Camada protetora para unhas fracas e quebradiças.">
+                    </div>
+                </div>
+                <button class="btn-primary-action" onclick="addNewService()">
+                    <i class="fas fa-plus"></i> Adicionar Serviço
+                </button>
+            </div>
+
+            <div class="config-card">
+                <h3><i class="fas fa-list"></i> Serviços Ativos na Landing Page</h3>
+                <div class="items-grid" id="servicesCardsContainer">
+                    <p style="color:#888;">Carregando serviços...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 4: GALERIA DE FOTOS -->
+        <div id="view-gallery" class="tab-view">
+            <div class="config-card">
+                <h3><i class="fas fa-camera"></i> Adicionar Nova Foto ao Portfólio</h3>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>URL / Caminho da Foto</label>
+                        <input type="text" id="new_photo_url" placeholder="Ex: assets/images/foto.jpg ou link externo" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Legenda / Título da Foto</label>
+                        <input type="text" id="new_photo_title" placeholder="Ex: Fibra de Vidro Decorada">
+                    </div>
+                </div>
+                <button class="btn-primary-action" onclick="addNewPhoto()">
+                    <i class="fas fa-upload"></i> Adicionar à Galeria
+                </button>
+            </div>
+
+            <div class="config-card">
+                <h3><i class="fas fa-images"></i> Fotos no Portfólio</h3>
+                <div class="items-grid" id="galleryCardsContainer">
+                    <p style="color:#888;">Carregando fotos...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 5: SUPER ADMIN -->
+        <div id="view-superadmin" class="tab-view">
+            <div class="config-card" style="border: 2px solid var(--primary);">
+                <h3><i class="fas fa-crown"></i> Cadastrar Novo Salão / Cliente</h3>
+                <p style="color: #666; font-size: 0.9rem; margin-top: -0.5rem; margin-bottom: 1.5rem;">
+                    Preencha os dados abaixo para gerar instantaneamente a Landing Page e o Painel do novo cliente.
+                </p>
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label>Nome do Salão / Profissional</label>
+                        <input type="text" id="sa_name" placeholder="Ex: Studio Bella Nails" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Slug da URL (sem espaços ou acentos)</label>
+                        <input type="text" id="sa_slug" placeholder="Ex: bellanails" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Telefone WhatsApp (com DDD)</label>
+                        <input type="text" id="sa_phone" placeholder="19988776655" required>
+                    </div>
+                    <div class="form-field">
+                        <label>Instagram</label>
+                        <input type="text" id="sa_instagram" placeholder="bellanails_studio">
+                    </div>
+                    <div class="form-field">
+                        <label>Senha de Acesso do Cliente</label>
+                        <input type="text" id="sa_password" value="1234">
+                    </div>
+                    <div class="form-field">
+                        <label>Cor Principal</label>
+                        <select id="sa_color">
+                            <option value="#D4AF37">Dourado Luxo (#D4AF37)</option>
+                            <option value="#e84393">Rosa Blush (#e84393)</option>
+                            <option value="#8e44ad">Roxo Requinte (#8e44ad)</option>
+                            <option value="#00b894">Verde Esmeralda (#00b894)</option>
+                            <option value="#e17055">Terracota (#e17055)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-primary-action" onclick="createSuperSalon()">
+                    <i class="fas fa-rocket"></i> Criar Salão & Publicar Site
+                </button>
+            </div>
+
+            <div class="config-card">
+                <h3><i class="fas fa-store"></i> Todos os Salões Cadastrados</h3>
+                <div id="allSalonsListContainer">
+                    <p style="color:#888;">Carregando lista de salões...</p>
+                </div>
+            </div>
         </div>
     </main>
 
     <script type="module">
-        import { executeQuery } from './assets/js/db.js';
+        import { 
+            executeQuery, 
+            initDb, 
+            getSalonBySlug, 
+            getAllSalons, 
+            getServicesBySalon, 
+            getGalleryBySalon, 
+            getBookingsBySalon, 
+            updateSalonInfo, 
+            createSalon 
+        } from './assets/js/db.js';
 
-        window.checkLogin = function () {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === "1234") { // Senha padrão simples
-                document.getElementById('loginOverlay').style.display = 'none';
-                localStorage.setItem('admin_logged', 'true');
-                loadBookings();
-            } else {
-                alert("Senha incorreta!");
+        let currentSalon = null;
+        let isMasterAdmin = false;
+        let allBookings = [];
+        let currentFilter = 'all';
+
+        // 1. Inicialização
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                await initDb();
+                await populateSalonSelects();
+            } catch (e) {
+                console.error("Erro init:", e);
             }
+
+            // Identificar salão da URL se houver (ex: ?salon=anails ou /s/anails/admin)
+            const urlParams = new URLSearchParams(window.location.search);
+            const pathParts = window.location.pathname.split('/').filter(Boolean);
+            let slug = urlParams.get('salon');
+            if (!slug && pathParts[0] === 's' && pathParts[1]) {
+                slug = pathParts[1];
+            }
+            if (slug) {
+                const sel = document.getElementById('loginSalonSelect');
+                if (sel) sel.value = slug;
+            }
+
+            // Checar sessão salva
+            const savedSlug = localStorage.getItem('active_salon_slug') || 'gionails';
+            const savedMaster = localStorage.getItem('admin_master') === 'true';
+            const savedLogged = localStorage.getItem('admin_logged') === 'true';
+
+            if (savedLogged) {
+                isMasterAdmin = savedMaster;
+                await selectAndLoadSalon(savedSlug);
+                document.getElementById('loginOverlay').style.display = 'none';
+            }
+        });
+
+        async function populateSalonSelects() {
+            try {
+                const salons = await getAllSalons();
+                const loginSel = document.getElementById('loginSalonSelect');
+                const masterSel = document.getElementById('masterSalonSwitch');
+                
+                if (loginSel && salons && salons.length > 0) {
+                    loginSel.innerHTML = '';
+                    masterSel.innerHTML = '';
+                    salons.forEach(s => {
+                        const opt = `<option value="${s.slug}">${s.name} (${s.slug})</option>`;
+                        loginSel.innerHTML += opt;
+                        masterSel.innerHTML += opt;
+                    });
+                }
+            } catch (err) {
+                console.error("Erro ao listar salões:", err);
+            }
+        }
+
+        window.checkLogin = async function () {
+            const pass = document.getElementById('adminPass').value;
+            const slug = document.getElementById('loginSalonSelect').value;
+
+            if (!slug) return alert("Selecione um salão.");
+
+            const salon = await getSalonBySlug(slug);
+            if (!salon) return alert("Salão não encontrado.");
+
+            // Senha master para você (Abel) ou senha cadastrada do salão
+            if (pass === "adminmaster") {
+                isMasterAdmin = true;
+                localStorage.setItem('admin_master', 'true');
+            } else if (pass === (salon.admin_password || "1234")) {
+                isMasterAdmin = false;
+                localStorage.removeItem('admin_master');
+            } else {
+                return alert("Senha incorreta!");
+            }
+
+            localStorage.setItem('admin_logged', 'true');
+            localStorage.setItem('active_salon_slug', slug);
+            document.getElementById('loginOverlay').style.display = 'none';
+
+            await selectAndLoadSalon(slug);
         };
 
         window.logout = function () {
             localStorage.removeItem('admin_logged');
+            localStorage.removeItem('admin_master');
+            localStorage.removeItem('active_salon_slug');
             location.reload();
         };
 
-        // Verificação de sessão
-        if (localStorage.getItem('admin_logged') === 'true') {
-            document.getElementById('loginOverlay').style.display = 'none';
+        async function selectAndLoadSalon(slug) {
+            currentSalon = await getSalonBySlug(slug);
+            if (!currentSalon) currentSalon = await getSalonBySlug('gionails');
+
+            // Atualizar UI com dados do salão
+            document.getElementById('headerSalonBadge').innerText = currentSalon.name;
+            const liveUrl = currentSalon.slug === 'gionails' ? '/' : `/s/${currentSalon.slug}`;
+            document.getElementById('linkViewLive').href = liveUrl;
+
+            // Se for Master Admin, exibir controle especial
+            if (isMasterAdmin) {
+                document.getElementById('tab-btn-superadmin').style.display = 'flex';
+                const masterSel = document.getElementById('masterSalonSwitch');
+                masterSel.style.display = 'inline-block';
+                masterSel.value = currentSalon.slug;
+            } else {
+                document.getElementById('tab-btn-superadmin').style.display = 'none';
+                document.getElementById('masterSalonSwitch').style.display = 'none';
+            }
+
+            // Aplicar cor do salão no painel
+            if (currentSalon.primary_color) {
+                document.documentElement.style.setProperty('--primary', currentSalon.primary_color);
+            }
+
+            loadBookings();
+            fillCustomizeForm();
+            loadServicesList();
+            loadGalleryList();
+            if (isMasterAdmin) loadSuperAdminSalons();
         }
 
-        let allBookings = [];
-        let currentFilter = 'all';
+        window.switchSalon = async function (slug) {
+            localStorage.setItem('active_salon_slug', slug);
+            await selectAndLoadSalon(slug);
+        };
 
-        function escapeHtml(text) {
-            if (!text) return '';
-            return String(text)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
+        // Troca de Abas
+        window.switchAdminTab = function (tabName) {
+            document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
 
+            const btn = document.getElementById(`tab-btn-${tabName}`);
+            const view = document.getElementById(`view-${tabName}`);
+            if (btn) btn.classList.add('active');
+            if (view) view.classList.add('active');
+        };
+
+        // ------------------ GESTÃO DE AGENDAMENTOS ------------------
         window.setFilter = function (filter) {
             currentFilter = filter;
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
@@ -648,17 +1279,18 @@
         };
 
         window.loadBookings = async function () {
+            if (!currentSalon) return;
             const list = document.getElementById('bookingList');
             list.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem;">Carregando dados...</td></tr>';
 
             try {
-                const bookings = await executeQuery("SELECT * FROM bookings ORDER BY date DESC, time ASC");
+                const bookings = await getBookingsBySalon(currentSalon.id);
                 allBookings = bookings || [];
                 updateCounts();
                 renderBookings();
             } catch (err) {
                 console.error("Erro ao carregar:", err);
-                list.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem; color: var(--danger);">Erro ao conectar com o Banco de Dados.</td></tr>';
+                list.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 3rem; color: var(--danger);">Erro ao carregar agendamentos.</td></tr>';
             }
         };
 
@@ -736,10 +1368,7 @@
         }
 
         window.openWhatsApp = function (phone) {
-            if (!phone) {
-                alert("Telefone não informado.");
-                return;
-            }
+            if (!phone) return alert("Telefone não informado.");
             const cleanPhone = phone.replace(/\D/g, '');
             const finalPhone = cleanPhone.startsWith('55') ? cleanPhone : '55' + cleanPhone;
             window.open(`https://wa.me/${finalPhone}`, '_blank');
@@ -765,11 +1394,11 @@
                     await executeQuery("UPDATE bookings SET status = 'canceled' WHERE id = ?", [id]);
                     loadBookings();
 
-                    // Pergunta antes de abrir o WhatsApp para não fechar ou redirecionar a tela do admin
                     const wantWhatsApp = confirm("Agendamento cancelado com sucesso!\n\nDeseja abrir o WhatsApp agora para enviar a mensagem de cancelamento ao cliente?");
                     if (wantWhatsApp) {
                         const formattedDate = b.date ? b.date.split('-').reverse().join('/') : '';
-                        const message = `Olá ${b.name}! Aqui é da Gionails. Infelizmente precisamos cancelar o seu agendamento para o dia ${formattedDate} às ${b.time}. Gostaríamos de reagendar para um outro horário?`;
+                        const salonTitle = currentSalon ? currentSalon.name : 'Gionails';
+                        const message = `Olá ${b.name}! Aqui é da ${salonTitle}. Infelizmente precisamos cancelar o seu agendamento para o dia ${formattedDate} às ${b.time}. Gostaríamos de reagendar para um outro horário?`;
                         const cleanPhone = (b.phone || '').replace(/\D/g, '');
                         const finalPhone = cleanPhone.startsWith('55') ? cleanPhone : '55' + cleanPhone;
                         const url = `https://wa.me/${finalPhone}?text=${encodeURIComponent(message)}`;
@@ -793,13 +1422,362 @@
                     loadBookings();
                 } catch (err) {
                     console.error("Erro ao excluir:", err);
-                    alert("Erro ao excluir agendamento do banco de dados.");
+                    alert("Erro ao excluir agendamento.");
                 }
             }
         };
 
-        if (localStorage.getItem('admin_logged') === 'true') {
-            loadBookings();
+        // ------------------ PERSONALIZAR SITE ------------------
+        function fillCustomizeForm() {
+            if (!currentSalon) return;
+            document.getElementById('cfg_name').value = currentSalon.name || '';
+            document.getElementById('cfg_subtitle').value = currentSalon.subtitle || '';
+            document.getElementById('cfg_tagline').value = currentSalon.tagline || '';
+            document.getElementById('cfg_bio_title').value = currentSalon.bio_title || '';
+            document.getElementById('cfg_bio_text1').value = currentSalon.bio_text1 || '';
+            document.getElementById('cfg_bio_text2').value = currentSalon.bio_text2 || '';
+            document.getElementById('cfg_stat1_num').value = currentSalon.stat1_num || '';
+            document.getElementById('cfg_stat1_text').value = currentSalon.stat1_text || '';
+            document.getElementById('cfg_stat2_num').value = currentSalon.stat2_num || '';
+            document.getElementById('cfg_stat2_text').value = currentSalon.stat2_text || '';
+            document.getElementById('cfg_phone').value = currentSalon.phone || '';
+            document.getElementById('cfg_instagram').value = currentSalon.instagram || '';
+            document.getElementById('cfg_address').value = currentSalon.address || '';
+            document.getElementById('cfg_primary_color').value = currentSalon.primary_color || '#D4AF37';
+            document.getElementById('colorHexText').innerText = currentSalon.primary_color || '#D4AF37';
+            document.getElementById('cfg_about_image').value = currentSalon.about_image || '';
+            document.getElementById('cfg_hero_image').value = currentSalon.hero_image || '';
+        }
+
+        window.previewColor = function (color) {
+            document.getElementById('colorHexText').innerText = color;
+            document.documentElement.style.setProperty('--primary', color);
+        };
+
+        window.applyColorPreset = function (color) {
+            document.getElementById('cfg_primary_color').value = color;
+            previewColor(color);
+        };
+
+        window.saveSalonSettings = async function () {
+            if (!currentSalon) return;
+
+            const fields = {
+                name: document.getElementById('cfg_name').value,
+                subtitle: document.getElementById('cfg_subtitle').value,
+                tagline: document.getElementById('cfg_tagline').value,
+                bio_title: document.getElementById('cfg_bio_title').value,
+                bio_text1: document.getElementById('cfg_bio_text1').value,
+                bio_text2: document.getElementById('cfg_bio_text2').value,
+                stat1_num: document.getElementById('cfg_stat1_num').value,
+                stat1_text: document.getElementById('cfg_stat1_text').value,
+                stat2_num: document.getElementById('cfg_stat2_num').value,
+                stat2_text: document.getElementById('cfg_stat2_text').value,
+                phone: document.getElementById('cfg_phone').value,
+                instagram: document.getElementById('cfg_instagram').value,
+                address: document.getElementById('cfg_address').value,
+                maps_query: document.getElementById('cfg_address').value.replace(/\s+/g, '+'),
+                primary_color: document.getElementById('cfg_primary_color').value,
+                about_image: document.getElementById('cfg_about_image').value,
+                hero_image: document.getElementById('cfg_hero_image').value
+            };
+
+            try {
+                await updateSalonInfo(currentSalon.id, fields);
+                alert("✨ Alterações salvas com sucesso! A Landing Page do salão já está atualizada.");
+                await selectAndLoadSalon(currentSalon.slug);
+            } catch (err) {
+                console.error("Erro ao salvar:", err);
+                alert("Erro ao salvar configurações.");
+            }
+        };
+
+        // ------------------ MEUS SERVIÇOS ------------------
+        async function loadServicesList() {
+            if (!currentSalon) return;
+            const container = document.getElementById('servicesCardsContainer');
+            container.innerHTML = '<p style="color:#888;">Carregando...</p>';
+
+            try {
+                const services = await getServicesBySalon(currentSalon.id);
+                if (!services || services.length === 0) {
+                    container.innerHTML = '<p style="color:#888;">Nenhum serviço cadastrado.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                services.forEach(s => {
+                    const card = document.createElement('div');
+                    card.className = 'item-card';
+                    card.innerHTML = `
+                        <div>
+                            <h4><i class="${s.icon || 'fas fa-gem'}" style="color:var(--primary); margin-right:6px;"></i> ${escapeHtml(s.name)}</h4>
+                            <p>${escapeHtml(s.description || 'Sem descrição')}</p>
+                            <div class="price">${escapeHtml(s.price || '')}</div>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1rem;">
+                            <button class="btn-icon btn-cancel" onclick="editServicePrice(${s.id}, '${escapeHtml(s.price || '')}')" title="Alterar Preço"><i class="fas fa-tag"></i></button>
+                            <button class="btn-icon btn-delete" onclick="removeService(${s.id})" title="Excluir Serviço"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                container.innerHTML = '<p style="color:var(--danger);">Erro ao carregar serviços.</p>';
+            }
+        }
+
+        window.addNewService = async function () {
+            if (!currentSalon) return;
+            const name = document.getElementById('new_service_name').value.trim();
+            const price = document.getElementById('new_service_price').value.trim();
+            const icon = document.getElementById('new_service_icon').value;
+            const desc = document.getElementById('new_service_desc').value.trim();
+
+            if (!name) return alert("Informe o nome do serviço.");
+
+            try {
+                await executeQuery(
+                    "INSERT INTO services (salon_id, name, description, price, icon) VALUES (?, ?, ?, ?, ?)",
+                    [currentSalon.id, name, desc, price, icon]
+                );
+                alert("Serviço adicionado com sucesso!");
+                document.getElementById('new_service_name').value = '';
+                document.getElementById('new_service_price').value = '';
+                document.getElementById('new_service_desc').value = '';
+                loadServicesList();
+            } catch (err) {
+                console.error("Erro ao adicionar serviço:", err);
+                alert("Erro ao adicionar serviço.");
+            }
+        };
+
+        window.editServicePrice = async function (id, currentPrice) {
+            const newPrice = prompt("Digite o novo preço para este serviço:", currentPrice);
+            if (newPrice !== null) {
+                try {
+                    await executeQuery("UPDATE services SET price = ? WHERE id = ?", [newPrice, id]);
+                    loadServicesList();
+                } catch (e) {
+                    alert("Erro ao alterar preço.");
+                }
+            }
+        };
+
+        window.removeService = async function (id) {
+            if (confirm("Deseja realmente remover este serviço da landing page?")) {
+                try {
+                    await executeQuery("DELETE FROM services WHERE id = ?", [id]);
+                    loadServicesList();
+                } catch (e) {
+                    alert("Erro ao remover serviço.");
+                }
+            }
+        };
+
+        // ------------------ GALERIA DE FOTOS ------------------
+        async function loadGalleryList() {
+            if (!currentSalon) return;
+            const container = document.getElementById('galleryCardsContainer');
+            container.innerHTML = '<p style="color:#888;">Carregando...</p>';
+
+            try {
+                const photos = await getGalleryBySalon(currentSalon.id);
+                if (!photos || photos.length === 0) {
+                    container.innerHTML = '<p style="color:#888;">Nenhuma foto cadastrada.</p>';
+                    return;
+                }
+
+                container.innerHTML = '';
+                photos.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = 'photo-card';
+                    card.innerHTML = `
+                        <img src="${p.image_url}" alt="${escapeHtml(p.title || 'Trabalho')}" onerror="this.src='https://placehold.co/400x300?text=Foto+Indisponivel'">
+                        <div class="photo-info">
+                            <span style="font-size:0.85rem; font-weight:600; color:#444;">${escapeHtml(p.title || 'Trabalho')}</span>
+                            <button class="btn-icon btn-delete" onclick="removePhoto(${p.id})" title="Excluir Foto"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (e) {
+                container.innerHTML = '<p style="color:var(--danger);">Erro ao carregar galeria.</p>';
+            }
+        }
+
+        window.addNewPhoto = async function () {
+            if (!currentSalon) return;
+            const url = document.getElementById('new_photo_url').value.trim();
+            const title = document.getElementById('new_photo_title').value.trim();
+
+            if (!url) return alert("Informe o caminho ou link da foto.");
+
+            try {
+                await executeQuery(
+                    "INSERT INTO gallery (salon_id, image_url, title) VALUES (?, ?, ?)",
+                    [currentSalon.id, url, title || 'Trabalho']
+                );
+                alert("Foto adicionada ao portfólio!");
+                document.getElementById('new_photo_url').value = '';
+                document.getElementById('new_photo_title').value = '';
+                loadGalleryList();
+            } catch (e) {
+                alert("Erro ao adicionar foto.");
+            }
+        };
+
+        window.removePhoto = async function (id) {
+            if (confirm("Deseja remover esta foto do portfólio?")) {
+                try {
+                    await executeQuery("DELETE FROM gallery WHERE id = ?", [id]);
+                    loadGalleryList();
+                } catch (e) {
+                    alert("Erro ao remover foto.");
+                }
+            }
+        };
+
+        // ------------------ SUPER ADMIN: CRIAR SALÃO ------------------
+        async function loadSuperAdminSalons() {
+            const container = document.getElementById('allSalonsListContainer');
+            try {
+                const salons = await getAllSalons();
+                if (!salons || salons.length === 0) {
+                    container.innerHTML = '<p style="color:#888;">Nenhum salão cadastrado.</p>';
+                    return;
+                }
+
+                let html = `
+                    <div style="overflow-x:auto;">
+                        <table style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Slug</th>
+                                    <th>WhatsApp</th>
+                                    <th>Links de Acesso</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+
+                salons.forEach(s => {
+                    const siteUrl = s.slug === 'gionails' ? '/' : `/s/${s.slug}`;
+                    const adminUrl = `/admin.html?salon=${s.slug}`;
+
+                    html += `
+                        <tr>
+                            <td><strong>#${s.id}</strong></td>
+                            <td>${escapeHtml(s.name)}</td>
+                            <td><code>${s.slug}</code></td>
+                            <td>${escapeHtml(s.phone || '-')}</td>
+                            <td>
+                                <a href="${siteUrl}" target="_blank" style="color:var(--primary); text-decoration:none; margin-right:12px; font-weight:600;"><i class="fas fa-globe"></i> Site</a>
+                                <a href="${adminUrl}" target="_blank" style="color:#444; text-decoration:none; font-weight:600;"><i class="fas fa-lock"></i> Painel</a>
+                            </td>
+                            <td>
+                                <button class="btn-primary-action" style="padding:0.4rem 0.8rem; font-size:0.8rem;" onclick="switchSalon('${s.slug}')">Gerenciar</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table></div>`;
+                container.innerHTML = html;
+            } catch (e) {
+                container.innerHTML = '<p style="color:var(--danger);">Erro ao listar salões.</p>';
+            }
+        }
+
+        window.createSuperSalon = async function () {
+            const name = document.getElementById('sa_name').value.trim();
+            const slug = document.getElementById('sa_slug').value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '');
+            const phone = document.getElementById('sa_phone').value.trim();
+            const instagram = document.getElementById('sa_instagram').value.trim();
+            const password = document.getElementById('sa_password').value.trim() || '1234';
+            const color = document.getElementById('sa_color').value;
+
+            if (!name || !slug || !phone) {
+                return alert("Preencha Nome, Slug e WhatsApp!");
+            }
+
+            try {
+                // Checar se slug já existe
+                const existing = await getSalonBySlug(slug);
+                if (existing) {
+                    return alert(`O slug "${slug}" já está em uso! Escolha outro.`);
+                }
+
+                await createSalon({
+                    slug,
+                    name,
+                    phone,
+                    instagram,
+                    primary_color: color,
+                    admin_password: password
+                });
+
+                // Obter o novo salão para clonar serviços e fotos padrão
+                const newSalon = await getSalonBySlug(slug);
+                if (newSalon) {
+                    // Inserir serviços padrão
+                    const defaultServices = [
+                        ['Fibra de Vidro', 'Alongamento ultra realista com máxima durabilidade.', 'R$ 150,00', 'fas fa-gem', 1],
+                        ['Gel Moldado', 'Técnica precisa que valoriza o formato natural das unhas.', 'R$ 130,00', 'fas fa-spa', 2],
+                        ['Nail Art Luxury', 'Designs exclusivos, pedrarias e acabamentos únicos.', 'R$ 80,00', 'fas fa-paint-brush', 3],
+                        ['Spa dos Pés', 'Tratamento completo para revitalização e cuidado profundo.', 'R$ 70,00', 'fas fa-heart', 4]
+                    ];
+                    for (const [sname, sdesc, sprice, sicon, sorder] of defaultServices) {
+                        await executeQuery(
+                            "INSERT INTO services (salon_id, name, description, price, icon, display_order) VALUES (?, ?, ?, ?, ?, ?)",
+                            [newSalon.id, sname, sdesc, sprice, sicon, sorder]
+                        );
+                    }
+
+                    // Inserir fotos padrão da galeria
+                    const defaultPhotos = [
+                        ['assets/images/6df1bc1e-1f8e-42c2-8fe8-d621516e8b4e.jpg', 'Trabalho 1', 1],
+                        ['assets/images/8ae2f58e-0f4b-4ecf-a7b1-2e6b91176b6c.jpg', 'Trabalho 2', 2],
+                        ['assets/images/9c33bb3b-9a94-436f-ba98-33a595779ec4.jpg', 'Trabalho 3', 3],
+                        ['assets/images/a41492ba-e877-44bc-8774-cfa003d15197.jpg', 'Trabalho 4', 4],
+                        ['assets/images/d378ee03-91bc-40bc-9e58-941f64f89d53.jpg', 'Trabalho 5', 5],
+                        ['assets/images/ea6a2e4f-01a5-48fa-bb64-c2bbfa8d1696.jpg', 'Trabalho 6', 6]
+                    ];
+                    for (const [img, title, order] of defaultPhotos) {
+                        await executeQuery(
+                            "INSERT INTO gallery (salon_id, image_url, title, display_order) VALUES (?, ?, ?, ?)",
+                            [newSalon.id, img, title, order]
+                        );
+                    }
+                }
+
+                alert(`🎉 Salão "${name}" criado com sucesso!\n\nLink do Site: /s/${slug}\nPainel Admin: /admin.html?salon=${slug}\nSenha: ${password}`);
+
+                // Limpar campos
+                document.getElementById('sa_name').value = '';
+                document.getElementById('sa_slug').value = '';
+                document.getElementById('sa_phone').value = '';
+                document.getElementById('sa_instagram').value = '';
+
+                await populateSalonSelects();
+                loadSuperAdminSalons();
+            } catch (err) {
+                console.error("Erro ao criar salão:", err);
+                alert("Erro ao criar salão no banco de dados.");
+            }
+        };
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
         }
     </script>
 </body>

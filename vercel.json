@@ -6,6 +6,14 @@
     {
       "source": "/admin",
       "destination": "/admin.html"
+    },
+    {
+      "source": "/s/:salon",
+      "destination": "/index.html?salon=:salon"
+    },
+    {
+      "source": "/s/:salon/admin",
+      "destination": "/admin.html?salon=:salon"
     }
   ]
 }

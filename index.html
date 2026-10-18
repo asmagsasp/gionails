@@ -28,7 +28,7 @@
     <header id="navbar">
         <div class="container">
             <div class="logo">
-                <a href="#">NAIL<span>DESIGN</span></a>
+                <a href="#" id="salonLogo">NAIL<span>DESIGN</span></a>
             </div>
             <nav>
                 <ul>
@@ -51,9 +51,9 @@
     <section id="home" class="hero">
         <div class="overlay"></div>
         <div class="container hero-content">
-            <h2 class="subtitle">Bem-vinda ao seu momento</h2>
-            <h1>Arte & Sofisticação <br><span>em Suas Mãos</span></h1>
-            <p>Especialista em técnicas avançadas de alongamento e Nail Art exclusiva, transformando unhas em
+            <h2 class="subtitle" id="heroSubtitle">Bem-vinda ao seu momento</h2>
+            <h1 id="heroTitle">Arte & Sofisticação <br><span>em Suas Mãos</span></h1>
+            <p id="heroTagline">Especialista em técnicas avançadas de alongamento e Nail Art exclusiva, transformando unhas em
                 verdadeiras obras de arte.</p>
             <div class="hero-btns">
                 <a href="javascript:void(0)" class="btn btn-primary open-booking">Agendar Horário</a>
@@ -66,23 +66,23 @@
     <section id="about" class="about">
         <div class="container grid">
             <div class="about-image">
-                <img src="assets/images/afc7434f-f6fe-490a-8f70-1a0306cf32e9.jpg" alt="Nail Designer">
+                <img id="aboutImage" src="assets/images/afc7434f-f6fe-490a-8f70-1a0306cf32e9.jpg" alt="Nail Designer">
             </div>
             <div class="about-text">
-                <span class="section-tag">Minha História</span>
-                <h2>Paixão pelo que faço</h2>
-                <p>Com anos de experiência no mercado de beleza, meu objetivo é oferecer não apenas um serviço de
+                <span class="section-tag" id="bioTag">Minha História</span>
+                <h2 id="bioTitle">Paixão pelo que faço</h2>
+                <p id="bioText1">Com anos de experiência no mercado de beleza, meu objetivo é oferecer não apenas um serviço de
                     manicure, mas uma experiência de autocuidado e elevação da autoestima.</p>
-                <p>Trabalho com os melhores materiais do mercado para garantir durabilidade, saúde e a beleza que suas
+                <p id="bioText2">Trabalho com os melhores materiais do mercado para garantir durabilidade, saúde e a beleza que suas
                     unhas merecem.</p>
                 <div class="stats">
                     <div class="stat-item">
-                        <span class="number">500+</span>
-                        <p>Clientes Satisfeitas</p>
+                        <span class="number" id="stat1Num">500+</span>
+                        <p id="stat1Text">Clientes Satisfeitas</p>
                     </div>
                     <div class="stat-item">
-                        <span class="number">5+</span>
-                        <p>Anos de Experiência</p>
+                        <span class="number" id="stat2Num">5+</span>
+                        <p id="stat2Text">Anos de Experiência</p>
                     </div>
                 </div>
             </div>
@@ -96,26 +96,26 @@
                 <span class="section-tag">O que ofereço</span>
                 <h2>Nossos Serviços</h2>
             </div>
-            <div class="services-grid">
+            <div class="services-grid" id="servicesGrid">
                 <div class="service-card">
-                    <i class="fas fa-hand-sparkles"></i>
+                    <i class="fas fa-gem"></i>
                     <h3>Fibra de Vidro</h3>
-                    <p>Alongamento resistente e com aspecto natural, perfeito para quem busca durabilidade.</p>
+                    <p>Alongamento ultra realista com máxima durabilidade e resistência.</p>
                 </div>
                 <div class="service-card active">
-                    <i class="fas fa-gem"></i>
-                    <h3>Banho de Gel</h3>
-                    <p>Fortalecimento das unhas naturais com camada de gel, garantindo brilho e resistência.</p>
+                    <i class="fas fa-spa"></i>
+                    <h3>Gel Moldado</h3>
+                    <p>Técnica precisa que valoriza o formato natural das unhas com elegância.</p>
                 </div>
                 <div class="service-card">
                     <i class="fas fa-paint-brush"></i>
                     <h3>Nail Art Luxury</h3>
-                    <p>Decorações exclusivas feitas à mão, pedrarias e efeitos artísticos únicos.</p>
+                    <p>Designs exclusivos, pedrarias, francesas e acabamentos únicos para ocasiões especiais.</p>
                 </div>
                 <div class="service-card">
-                    <i class="fas fa-spa"></i>
+                    <i class="fas fa-heart"></i>
                     <h3>Spa dos Pés</h3>
-                    <p>Cuidado completo com esfoliação, hidratação profunda e acabamento impecável.</p>
+                    <p>Tratamento completo para revitalização, esfoliação e cuidado profundo.</p>
                 </div>
             </div>
         </div>
@@ -128,25 +128,25 @@
                 <span class="section-tag">Galeria</span>
                 <h2>Últimos Trabalhos</h2>
             </div>
-            <div class="portfolio-grid" id="gallery">
-                <!-- Sample items from the local folder -->
+            <div class="portfolio-grid" id="galleryGrid">
+                <!-- Fotos dinâmicas carregadas pelo main.js -->
                 <div class="portfolio-item">
-                    <img src="assets/images/1e21f989-b51e-4c4c-852d-e35d7cf355d9.jpg" alt="Trabalho 1">
+                    <img src="assets/images/6df1bc1e-1f8e-42c2-8fe8-d621516e8b4e.jpg" alt="Trabalho 1">
                 </div>
                 <div class="portfolio-item">
-                    <img src="assets/images/23fdaed9-340f-465a-8ac6-9ca7496e29a2.jpg" alt="Trabalho 2">
+                    <img src="assets/images/8ae2f58e-0f4b-4ecf-a7b1-2e6b91176b6c.jpg" alt="Trabalho 2">
                 </div>
                 <div class="portfolio-item">
-                    <img src="assets/images/93e46d34-e858-4c4e-88a7-ebb8744f803e.jpg" alt="Trabalho 3">
+                    <img src="assets/images/9c33bb3b-9a94-436f-ba98-33a595779ec4.jpg" alt="Trabalho 3">
                 </div>
                 <div class="portfolio-item">
-                    <img src="assets/images/WhatsApp Image 2026-03-12 at 19.32.42.jpeg" alt="Trabalho 4">
+                    <img src="assets/images/a41492ba-e877-44bc-8774-cfa003d15197.jpg" alt="Trabalho 4">
                 </div>
                 <div class="portfolio-item">
-                    <img src="assets/images/b7c6d662-d34d-4724-a673-5b571d7343f0.jpg" alt="Trabalho 5">
+                    <img src="assets/images/d378ee03-91bc-40bc-9e58-941f64f89d53.jpg" alt="Trabalho 5">
                 </div>
                 <div class="portfolio-item">
-                    <img src="assets/images/e5f952e3-43fb-4d1e-a698-6eebbc0035cb.jpg" alt="Trabalho 6">
+                    <img src="assets/images/ea6a2e4f-01a5-48fa-bb64-c2bbfa8d1696.jpg" alt="Trabalho 6">
                 </div>
                 <div class="portfolio-item">
                     <img src="assets/images/efa43829-3591-4dd2-bf77-82079aee6f01.jpg" alt="Trabalho 7">
@@ -168,18 +168,18 @@
                 <h2>Vamos realçar sua beleza?</h2>
                 <p>Agende seu horário agora e tenha as unhas que você sempre sonhou.</p>
                 <div class="info-list">
-                    <a href="https://wa.me/5519999995149" target="_blank" class="info-item">
+                    <a href="https://wa.me/5519999995149" target="_blank" class="info-item" id="contactWhatsappLink">
                         <i class="fab fa-whatsapp"></i>
                         <div>
                             <h4>WhatsApp</h4>
-                            <p><span class="blurred-text" title="Informação oculta">(19) 99999-5149</span></p>
+                            <p><span class="blurred-text" id="contactWhatsappText" title="Informação oculta">(19) 99999-5149</span></p>
                         </div>
                     </a>
-                    <a href="https://www.instagram.com/gionails80" target="_blank" class="info-item">
+                    <a href="https://www.instagram.com/gionails80" target="_blank" class="info-item" id="contactInstagramLink">
                         <i class="fab fa-instagram"></i>
                         <div>
                             <h4>Instagram</h4>
-                            <p><span class="blurred-text" title="Informação oculta">@gionails80</span></p>
+                            <p><span class="blurred-text" id="contactInstagramText" title="Informação oculta">@gionails80</span></p>
                         </div>
                     </a>
                 </div>
@@ -188,10 +188,10 @@
             </div>
             <div class="contact-map">
                 <!-- Location Placeholder -->
-                <a href="https://www.google.com/maps/search/?api=1&query=Rua+Steffano+Scarazatto,+143+-+Jardim+da+Colônia+-+Jundiaí+-+SP"
+                <a id="contactMapsLink" href="https://www.google.com/maps/search/?api=1&query=Rua+Steffano+Scarazatto,+143+-+Jardim+da+Colônia+-+Jundiaí+-+SP"
                     target="_blank" class="map-placeholder">
                     <i class="fas fa-map-marker-alt"></i>
-                    <p>Rua Steffano Scarazatto, 143 <br> Jardim da Colônia - Jundiaí - SP</p>
+                    <p id="contactAddress">Rua Steffano Scarazatto, 143 <br> Jardim da Colônia - Jundiaí - SP</p>
                     <span style="font-size: 0.8rem; color: var(--primary); margin-top: 10px;">Ver no Google Maps</span>
                 </a>
             </div>

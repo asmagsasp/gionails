@@ -1,110 +1,76 @@
-# Gio Nail Design ✨
+# Gio Nail Design & Plataforma Multi-Tenant para Salões ✨
 
-Projeto restaurado por engenharia reversa a partir da publicação de produção no Netlify (`https://gionaildesign.netlify.app/`).
+Website profissional e plataforma SaaS para Nail Designers e Salões de Beleza com agendamento online integrado ao WhatsApp, personalização visual completa em tempo real e painel administrativo integrado ao banco de dados **Turso (LibSQL)**.
 
-## 💅 Visão Geral
-Website profissional para Nail Designer com design responsivo, galeria de trabalhos, agendamento interativo com integração direta ao WhatsApp e painel administrativo integrado com banco de dados **Turso (LibSQL)**.
+---
 
-## 📁 Estrutura do Projeto
+## 💅 Visão Geral do Sistema Multi-Tenant
 
-```
-gionails/
-├── index.html              # Página principal (Landing page)
-├── admin.html              # Painel Administrativo de agendamentos
-├── package.json            # Configuração e dependências do projeto
-├── package-lock.json       # Bloqueio de versões exatas de dependências
-├── favicon.ico             # Ícone do site
-├── assets/
-│   ├── css/
-│   │   └── style.css       # Estilos da landing page (Paleta Gold/Blush/Dark)
-│   ├── js/
-│   │   ├── main.js         # Lógica da landing page e modal de agendamento
-│   │   ├── db.js           # Funções de integração HTTP com o Turso DB
-│   │   └── config.js       # Configurações de conexão do Turso
-│   └── images/             # Todas as fotos da galeria, perfil e banners
-└── README.md
-```
+O projeto suporta múltiplos salões/clientes em uma **única instalação**:
+- Cada salão possui sua própria landing page personalizada (textos, logotipo, fotos, serviços, preços e paleta de cores).
+- Cada salão possui seu próprio painel administrativo isolado para gerenciar apenas seus agendamentos e seu próprio site.
+- **Super Admin Integrado:** Crie e publique um novo salão em 20 segundos!
+
+---
+
+## 🌐 Como Funciona o Roteamento de Salões
+
+- **Salão Padrão (Gio Nail Design):**
+  - Landing Page: `https://seu-site.vercel.app/` ou `http://localhost:3000/`
+  - Painel Admin: `https://seu-site.vercel.app/admin.html?salon=gionails`
+- **Qualquer Outro Salão (ex: `bellanails`):**
+  - Landing Page: `https://seu-site.vercel.app/s/bellanails` ou `?salon=bellanails`
+  - Painel Admin: `https://seu-site.vercel.app/admin.html?salon=bellanails`
+
+---
+
+## 🔐 Painel Administrativo (`admin.html`)
+
+- **Senha Padrão do Salão:** `1234` (ou a senha configurada para aquele salão)
+- **Senha Master (Super Admin):** `adminmaster` (permite gerenciar qualquer salão e cadastrar novos clientes)
+
+### 📌 Abas Disponíveis no Painel:
+1. **📅 Agendamentos:**
+   - Visualização de agendamentos com filtros em abas: *Todos*, *Pendentes*, *Para Hoje*, *Concluídos* e *Cancelados*
+   - Layout responsivo automático em Cards para smartphone
+   - Concluir, Cancelar (com confirmação para WhatsApp) e Excluir definitivo do banco
+2. **🎨 Personalizar Site:**
+   - Altere o Nome, Frase de impacto, Textos "Sobre Mim", Telefone WhatsApp, Instagram e Endereço
+   - **Seletor de Cor Primária (HEX):** Mude a cor do site em tempo real (Dourado, Rosa Pink, Roxo, Esmeralda, etc.)
+   - Foto de perfil e imagem de fundo do topo
+3. **💅 Meus Serviços:**
+   - Adicione novos serviços com nome, descrição, ícone e preço
+   - Altere preços rapidamente e exclua serviços obsoletos
+4. **📸 Galeria de Fotos:**
+   - Adicione fotos ao portfólio via URL
+   - Exclua fotos antigas com 1 clique
+5. **👑 Super Admin (Modo Master):**
+   - Cadastre um novo salão preenchendo apenas Nome, Slug, WhatsApp e Cor
+   - O sistema gera o site, copia os serviços e fotos base e entrega os links prontos na hora!
+
+---
+
+## 🗄️ Estrutura do Banco de Dados (Turso)
+
+1. **`salons`**: Dados cadastrais, cores e textos de cada salão
+2. **`services`**: Tabela de serviços associada por `salon_id`
+3. **`gallery`**: Portfólio de imagens associado por `salon_id`
+4. **`bookings`**: Agendamentos realizados vinculados a cada `salon_id`
+
+---
 
 ## 🚀 Como Executar Localmente
 
-### Pré-requisitos
-- Node.js instalado (v16+)
-
-### Instalação e Execução
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
-
-2. Inicie o servidor local:
-   ```bash
-   npm run dev
-   ```
-   Ou com Python se preferir:
-   ```bash
-   python -m http.server 3000
-   ```
-
-3. Abra no navegador:
-   - **Landing Page:** [http://localhost:3000/](http://localhost:3000/)
-   - **Painel Administrativo:** [http://localhost:3000/admin.html](http://localhost:3000/admin.html)
-
----
-
-## 🔐 Painel Administrativo (`admin.html` ou `/admin`)
-- **Senha padrão:** `1234`
-- **Funcionalidades:**
-  - Visualização de agendamentos com filtros em abas: Todos, Pendentes, Para Hoje, Concluídos e Cancelados
-  - Indicadores e contadores em tempo real no topo
-  - Ação para marcar agendamentos como concluídos
-  - Ação para cancelar agendamento (com opção de avisar o cliente via WhatsApp)
-  - Ação para **exclusão definitiva** do agendamento no banco de dados
-  - Botão de contato direto via WhatsApp com o número do cliente
-
----
-
-## 🗄️ Banco de Dados (Turso)
-O projeto conecta-se à API HTTP do Turso através do arquivo `assets/js/db.js` e credenciais em `assets/js/config.js`.
-Tabela utilizada:
-```sql
-CREATE TABLE IF NOT EXISTS bookings (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    service TEXT NOT NULL,
-    date TEXT NOT NULL,
-    time TEXT NOT NULL,
-    phone TEXT NOT NULL, 
-    status TEXT DEFAULT 'pending',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-```
-
----
-
-## 📤 Como Subir para o GitHub e Vercel
-
-### 1. Subir para o GitHub
-No terminal desta pasta, adicione os arquivos e faça o commit:
 ```bash
-git add .
-git commit -m "feat: suporte para deploy Vercel e melhorias no painel admin"
+npm run dev
 ```
+Acesse: [http://localhost:3000/](http://localhost:3000/) | Admin: [http://localhost:3000/admin.html](http://localhost:3000/admin.html)
 
-Se ainda não vinculou seu repositório no GitHub:
-```bash
-git remote add origin https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-git branch -M main
-git push -u origin main
-```
+---
 
-### 2. Deploy na Vercel
-O projeto já está configurado com `vercel.json` pronto para produção:
-- **Via Dashboard Vercel:**
-  1. Acesse [vercel.com](https://vercel.com) e clique em **"Add New... -> Project"**.
-  2. Importe o repositório do GitHub que você acabou de subir.
-  3. Mantenha as configurações padrão (Framework: **Other**) e clique em **Deploy**.
-- **Via Vercel CLI (opcional):**
-  ```bash
-  npx vercel
-  ```
+## 📤 Deploy na Vercel
+
+O projeto possui `vercel.json` configurado com rotas dinâmicas `/s/:salon`.
+Ao enviar para o GitHub (`git push origin main`), o deploy na Vercel é 100% automático.
+
 

@@ -44,9 +44,66 @@ export async function executeQuery(sql, args = []) {
 }
 
 export async function initDb() {
-    const sql = `
+    // 1. Criar tabela de salões/profissionais
+    await executeQuery(`
+        CREATE TABLE IF NOT EXISTS salons (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            slug TEXT UNIQUE NOT NULL,
+            name TEXT NOT NULL,
+            tagline TEXT,
+            subtitle TEXT,
+            bio_tag TEXT,
+            bio_title TEXT,
+            bio_text1 TEXT,
+            bio_text2 TEXT,
+            stat1_num TEXT,
+            stat1_text TEXT,
+            stat2_num TEXT,
+            stat2_text TEXT,
+            phone TEXT NOT NULL,
+            instagram TEXT,
+            address TEXT,
+            maps_query TEXT,
+            primary_color TEXT DEFAULT '#D4AF37',
+            hero_image TEXT,
+            about_image TEXT,
+            contact_bg TEXT,
+            admin_password TEXT DEFAULT '1234',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+
+    // 2. Criar tabela de serviços do salão
+    await executeQuery(`
+        CREATE TABLE IF NOT EXISTS services (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            salon_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            description TEXT,
+            price TEXT,
+            icon TEXT DEFAULT 'fas fa-gem',
+            display_order INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+
+    // 3. Criar tabela de galeria de fotos do salão
+    await executeQuery(`
+        CREATE TABLE IF NOT EXISTS gallery (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            salon_id INTEGER NOT NULL,
+            image_url TEXT NOT NULL,
+            title TEXT,
+            display_order INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+    `);
+
+    // 4. Criar/atualizar tabela de agendamentos
+    await executeQuery(`
         CREATE TABLE IF NOT EXISTS bookings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            salon_id INTEGER DEFAULT 1,
             name TEXT NOT NULL,
             service TEXT NOT NULL,
             date TEXT NOT NULL,
@@ -55,6 +112,81 @@ export async function initDb() {
             status TEXT DEFAULT 'pending',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
-    `;
-    return executeQuery(sql);
+    `);
+
+    try {
+        await executeQuery("ALTER TABLE bookings ADD COLUMN salon_id INTEGER DEFAULT 1;");
+    } catch (_) {
+        // Já existe a coluna salon_id
+    }
 }
+
+// Buscar dados de um salão pelo slug (ex: 'gionails')
+export async function getSalonBySlug(slug) {
+    const rows = await executeQuery("SELECT * FROM salons WHERE slug = ? LIMIT 1", [slug]);
+    return (rows && rows.length > 0) ? rows[0] : null;
+}
+
+// Buscar todos os salões cadastrados (para listagem/Super Admin)
+export async function getAllSalons() {
+    return await executeQuery("SELECT id, slug, name, phone, instagram, primary_color, created_at FROM salons ORDER BY name ASC");
+}
+
+// Buscar serviços de um salão
+export async function getServicesBySalon(salonId) {
+    return await executeQuery("SELECT * FROM services WHERE salon_id = ? ORDER BY display_order ASC, id ASC", [salonId]);
+}
+
+// Buscar fotos da galeria de um salão
+export async function getGalleryBySalon(salonId) {
+    return await executeQuery("SELECT * FROM gallery WHERE salon_id = ? ORDER BY display_order ASC, id ASC", [salonId]);
+}
+
+// Buscar agendamentos de um salão específico
+export async function getBookingsBySalon(salonId) {
+    return await executeQuery("SELECT * FROM bookings WHERE salon_id = ? ORDER BY date DESC, time ASC", [salonId]);
+}
+
+// Atualizar informações do salão
+export async function updateSalonInfo(id, fields) {
+    const keys = Object.keys(fields);
+    const setClause = keys.map(k => `${k} = ?`).join(', ');
+    const values = keys.map(k => fields[k]);
+    values.push(id);
+    return await executeQuery(`UPDATE salons SET ${setClause} WHERE id = ?`, values);
+}
+
+// Criar novo salão
+export async function createSalon(data) {
+    const sql = `
+        INSERT INTO salons (
+            slug, name, tagline, subtitle, bio_tag, bio_title, bio_text1, bio_text2,
+            stat1_num, stat1_text, stat2_num, stat2_text, phone, instagram, address,
+            maps_query, primary_color, hero_image, about_image, admin_password
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const params = [
+        data.slug,
+        data.name,
+        data.tagline || 'Arte & Sofisticação em Suas Mãos',
+        data.subtitle || 'Bem-vinda ao seu momento',
+        data.bio_tag || 'Minha História',
+        data.bio_title || 'Paixão pelo que faço',
+        data.bio_text1 || 'Com anos de experiência no mercado de beleza, meu objetivo é oferecer uma experiência única.',
+        data.bio_text2 || 'Trabalho com os melhores materiais do mercado para garantir durabilidade e beleza.',
+        data.stat1_num || '500+',
+        data.stat1_text || 'Clientes Satisfeitas',
+        data.stat2_num || '5+',
+        data.stat2_text || 'Anos de Experiência',
+        data.phone || '',
+        data.instagram || '',
+        data.address || '',
+        data.maps_query || '',
+        data.primary_color || '#D4AF37',
+        data.hero_image || 'assets/images/f521b753-a874-42fb-b737-9d87aca2990c.jpg',
+        data.about_image || 'assets/images/afc7434f-f6fe-490a-8f70-1a0306cf32e9.jpg',
+        data.admin_password || '1234'
+    ];
+    return await executeQuery(sql, params);
+}
+
