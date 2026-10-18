@@ -51,12 +51,14 @@ gionails/
 
 ---
 
-## 🔐 Painel Administrativo (`admin.html`)
+## 🔐 Painel Administrativo (`admin.html` ou `/admin`)
 - **Senha padrão:** `1234`
 - **Funcionalidades:**
-  - Visualização de agendamentos pendentes, agendados para hoje e concluídos
+  - Visualização de agendamentos com filtros em abas: Todos, Pendentes, Para Hoje, Concluídos e Cancelados
+  - Indicadores e contadores em tempo real no topo
   - Ação para marcar agendamentos como concluídos
-  - Ação para cancelar agendamento e abrir WhatsApp com mensagem personalizada para o cliente
+  - Ação para cancelar agendamento (com opção de avisar o cliente via WhatsApp)
+  - Ação para **exclusão definitiva** do agendamento no banco de dados
   - Botão de contato direto via WhatsApp com o número do cliente
 
 ---
@@ -79,12 +81,30 @@ CREATE TABLE IF NOT EXISTS bookings (
 
 ---
 
-## 📤 Como Subir de Volta para o GitHub
+## 📤 Como Subir para o GitHub e Vercel
 
-1. Se ainda não tiver um repositório criado no GitHub, crie um novo repositório vazio (ex: `gionails` ou `gionaildesign`).
-2. No terminal desta pasta, vincule e suba o código:
-   ```bash
-   git remote add origin https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-   git branch -M main
-   git push -u origin main
-   ```
+### 1. Subir para o GitHub
+No terminal desta pasta, adicione os arquivos e faça o commit:
+```bash
+git add .
+git commit -m "feat: suporte para deploy Vercel e melhorias no painel admin"
+```
+
+Se ainda não vinculou seu repositório no GitHub:
+```bash
+git remote add origin https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+git branch -M main
+git push -u origin main
+```
+
+### 2. Deploy na Vercel
+O projeto já está configurado com `vercel.json` pronto para produção:
+- **Via Dashboard Vercel:**
+  1. Acesse [vercel.com](https://vercel.com) e clique em **"Add New... -> Project"**.
+  2. Importe o repositório do GitHub que você acabou de subir.
+  3. Mantenha as configurações padrão (Framework: **Other**) e clique em **Deploy**.
+- **Via Vercel CLI (opcional):**
+  ```bash
+  npx vercel
+  ```
+
