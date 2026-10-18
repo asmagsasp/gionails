@@ -68,7 +68,8 @@ export async function initDb() {
             hero_image TEXT,
             about_image TEXT,
             contact_bg TEXT,
-            admin_password TEXT DEFAULT '1234',
+            admin_password TEXT DEFAULT '7777',
+            must_change_password INTEGER DEFAULT 1,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
     `);
@@ -119,6 +120,20 @@ export async function initDb() {
     } catch (_) {
         // Já existe a coluna salon_id
     }
+
+    // Adicionar coluna must_change_password se não existir
+    try {
+        await executeQuery("ALTER TABLE salons ADD COLUMN must_change_password INTEGER DEFAULT 1;");
+    } catch (_) {
+        // Já existe a coluna must_change_password
+    }
+
+    // Migrar salões existentes: trocar senha antiga padrão '1234' para '7777' e forçar troca
+    try {
+        await executeQuery("UPDATE salons SET admin_password = '7777', must_change_password = 1 WHERE admin_password = '1234';");
+    } catch (_) {
+        // Ignorar erros de migração
+    }
 }
 
 // Buscar dados de um salão pelo slug (ex: 'gionails')
@@ -162,8 +177,8 @@ export async function createSalon(data) {
         INSERT INTO salons (
             slug, name, tagline, subtitle, bio_tag, bio_title, bio_text1, bio_text2,
             stat1_num, stat1_text, stat2_num, stat2_text, phone, instagram, address,
-            maps_query, primary_color, hero_image, about_image, admin_password
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            maps_query, primary_color, hero_image, about_image, admin_password, must_change_password
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
     `;
     const params = [
         data.slug,
@@ -185,7 +200,7 @@ export async function createSalon(data) {
         data.primary_color || '#D4AF37',
         data.hero_image || 'assets/images/f521b753-a874-42fb-b737-9d87aca2990c.jpg',
         data.about_image || 'assets/images/afc7434f-f6fe-490a-8f70-1a0306cf32e9.jpg',
-        data.admin_password || '1234'
+        data.admin_password || '7777'
     ];
     return await executeQuery(sql, params);
 }
