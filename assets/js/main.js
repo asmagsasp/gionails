@@ -1,16 +1,21 @@
-import { executeQuery, initDb, getSalonBySlug, getServicesBySalon, getGalleryBySalon } from './db.js';
+import { executeQuery, getSalonBySlug, getServicesBySalon, getGalleryBySalon } from './db.js';
 
 let currentSalon = null;
 
-document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Inicializar e carregar dados do salão
-    try {
-        await initDb();
-    } catch (e) {
-        console.error("Falha ao iniciar DB:", e);
-    }
+// Função global de Scroll Reveal dinâmica
+export function revealOnScroll() {
+    const revealElements = document.querySelectorAll('.service-card, .portfolio-item, .about-text, .about-image');
+    const triggerBottom = window.innerHeight * 0.95;
+    revealElements.forEach(el => {
+        const elTop = el.getBoundingClientRect().top;
+        if (elTop < triggerBottom) {
+            el.classList.add('visible');
+        }
+    });
+}
 
-    // Identificar qual salão carregar pela URL (ex: ?salon=gionails ou /s/gionails)
+document.addEventListener('DOMContentLoaded', async () => {
+    // 1. Identificar qual salão carregar pela URL (ex: ?salon=gionails ou /s/gionails)
     const urlParams = new URLSearchParams(window.location.search);
     const pathSegments = window.location.pathname.split('/').filter(Boolean);
     let slug = urlParams.get('salon');
@@ -25,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentSalon = await getSalonBySlug('gionails');
         }
         if (currentSalon) {
-            renderSalonData(currentSalon);
+            await renderSalonData(currentSalon);
         }
     } catch (err) {
         console.error("Erro ao carregar dados do salão:", err);
@@ -49,7 +54,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             backToTop.classList.remove('show');
         }
-    });
+
+        revealOnScroll();
+    }, { passive: true });
+
+    window.addEventListener('resize', revealOnScroll, { passive: true });
 
     if (navToggle) {
         navToggle.addEventListener('click', () => {
@@ -74,9 +83,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (navMenu) navMenu.classList.remove('active');
             if (navToggle) {
                 const spans = navToggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+                if (spans.length >= 3) {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
             }
         });
     });
@@ -121,7 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const dateParts = date.split('-');
             const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
 
-            const salonName = currentSalon ? currentSalon.name : 'Nail Design';
+            const salonName = currentSalon ? currentSalon.name : 'Gio Nails';
             const message = `Olá ${salonName}! Gostaria de agendar um horário:
             
 👤 *Nome:* ${name}
@@ -152,16 +163,8 @@ Aguardo confirmação!`;
         });
     }
 
-    // Scroll reveal animation
-    const revealElements = document.querySelectorAll('.service-card, .portfolio-item, .about-text, .about-image');
-    const revealOnScroll = () => {
-        const triggerBottom = window.innerHeight * 0.9;
-        revealElements.forEach(el => {
-            const elTop = el.getBoundingClientRect().top;
-            if (elTop < triggerBottom) el.classList.add('visible');
-        });
-    };
-    window.addEventListener('scroll', revealOnScroll);
+    // Scroll reveal inicial
+    revealOnScroll();
     setTimeout(revealOnScroll, 100);
 });
 
@@ -263,22 +266,22 @@ async function renderSalonData(salon) {
         if (mapLink) mapLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(salon.maps_query)}`;
     }
 
-    // 6. Serviços Dinâmicos do Salão
+    // 6. Carregar Serviços e Galeria em Paralelo para Velocidade Máxima
     try {
-        const services = await getServicesBySalon(salon.id);
+        const [services, photos] = await Promise.all([
+            getServicesBySalon(salon.id).catch(e => { console.error("Erro serviços:", e); return []; }),
+            getGalleryBySalon(salon.id).catch(e => { console.error("Erro galeria:", e); return []; })
+        ]);
+
+        // Renderizar Serviços
         if (services && services.length > 0) {
             const grid = document.getElementById('servicesGrid');
             const select = document.getElementById('service');
-            if (grid) grid.innerHTML = '';
-            if (select) {
-                select.innerHTML = '<option value="" disabled selected>Selecione um serviço</option>';
-            }
-
-            services.forEach((s, idx) => {
-                // Card na página
-                if (grid) {
+            if (grid) {
+                grid.innerHTML = '';
+                services.forEach((s, idx) => {
                     const card = document.createElement('div');
-                    card.className = `service-card ${idx === 1 ? 'active' : ''}`;
+                    card.className = `service-card ${idx === 1 ? 'active' : ''} visible`;
                     card.innerHTML = `
                         <i class="${s.icon || 'fas fa-gem'}"></i>
                         <h3>${s.name}</h3>
@@ -286,38 +289,38 @@ async function renderSalonData(salon) {
                         ${s.price ? `<span class="service-price" style="display:inline-block; margin-top:0.8rem; font-weight:700; color:var(--primary); font-size:1.1rem;">${s.price}</span>` : ''}
                     `;
                     grid.appendChild(card);
-                }
+                });
+            }
 
-                // Opção no dropdown do formulário
-                if (select) {
+            if (select) {
+                select.innerHTML = '<option value="" disabled selected>Selecione um serviço</option>';
+                services.forEach(s => {
                     const opt = document.createElement('option');
                     opt.value = s.name;
                     opt.textContent = `${s.name}${s.price ? ` (${s.price})` : ''}`;
                     select.appendChild(opt);
-                }
-            });
+                });
+            }
         }
-    } catch (e) {
-        console.error("Erro ao carregar serviços:", e);
-    }
 
-    // 7. Galeria Dinâmica do Salão
-    try {
-        const photos = await getGalleryBySalon(salon.id);
+        // Renderizar Galeria
         if (photos && photos.length > 0) {
             const galleryGrid = document.getElementById('galleryGrid');
             if (galleryGrid) {
                 galleryGrid.innerHTML = '';
                 photos.forEach(p => {
                     const item = document.createElement('div');
-                    item.className = 'portfolio-item';
-                    item.innerHTML = `<img src="${p.image_url}" alt="${p.title || 'Trabalho'}">`;
+                    item.className = 'portfolio-item visible';
+                    item.innerHTML = `<img src="${p.image_url}" alt="${p.title || 'Trabalho'}" loading="lazy">`;
                     galleryGrid.appendChild(item);
                 });
             }
         }
+
+        // Garantir que animações de reveal sejam aplicadas imediatamente aos novos cards
+        revealOnScroll();
     } catch (e) {
-        console.error("Erro ao carregar galeria:", e);
+        console.error("Erro ao renderizar serviços/galeria:", e);
     }
 }
 
