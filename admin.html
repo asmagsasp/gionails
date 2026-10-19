@@ -784,7 +784,7 @@
             <div style="text-align: left; margin-bottom: 0.4rem; font-size: 0.8rem; color: #888;">SENHA DE ACESSO</div>
             <input type="password" id="adminPass" placeholder="Senha do Salão ou Senha Master">
             <button class="btn-login" onclick="checkLogin()"><i class="fas fa-lock-open"></i> Acessar Painel</button>
-            <p style="font-size: 0.75rem; color: #888; margin-top: 1rem;">(Senha padrão inicial: <code>7777</code> | Super Admin: <code>adminmaster</code>)</p>
+            <p style="font-size: 0.75rem; color: #888; margin-top: 1rem;">(Senha padrão inicial: <code>7777</code>)</p>
         </div>
     </div>
 
@@ -834,13 +834,13 @@
             <button class="admin-tab-btn active" id="tab-btn-bookings" onclick="switchAdminTab('bookings')">
                 <i class="fas fa-calendar-check"></i> Agendamentos
             </button>
-            <button class="admin-tab-btn" id="tab-btn-customize" onclick="switchAdminTab('customize')">
+            <button class="admin-tab-btn" id="tab-btn-customize" style="display: none;" onclick="switchAdminTab('customize')">
                 <i class="fas fa-paint-brush"></i> Personalizar Site
             </button>
-            <button class="admin-tab-btn" id="tab-btn-services" onclick="switchAdminTab('services')">
+            <button class="admin-tab-btn" id="tab-btn-services" style="display: none;" onclick="switchAdminTab('services')">
                 <i class="fas fa-gem"></i> Meus Serviços
             </button>
-            <button class="admin-tab-btn" id="tab-btn-gallery" onclick="switchAdminTab('gallery')">
+            <button class="admin-tab-btn" id="tab-btn-gallery" style="display: none;" onclick="switchAdminTab('gallery')">
                 <i class="fas fa-images"></i> Galeria de Fotos
             </button>
             <button class="admin-tab-btn" id="tab-btn-superadmin" style="display: none;" onclick="switchAdminTab('superadmin')">
@@ -1298,15 +1298,18 @@
             const liveUrl = currentSalon.slug === 'gionails' ? '/' : `/s/${currentSalon.slug}`;
             document.getElementById('linkViewLive').href = liveUrl;
 
-            // Se for Master Admin, exibir controle especial
+            // Se for Master Admin, exibir abas de personalização e controle especial
+            const masterOnlyTabs = ['tab-btn-customize', 'tab-btn-services', 'tab-btn-gallery', 'tab-btn-superadmin'];
             if (isMasterAdmin) {
-                document.getElementById('tab-btn-superadmin').style.display = 'flex';
+                masterOnlyTabs.forEach(id => document.getElementById(id).style.display = 'flex');
                 const masterSel = document.getElementById('masterSalonSwitch');
                 masterSel.style.display = 'inline-block';
                 masterSel.value = currentSalon.slug;
             } else {
-                document.getElementById('tab-btn-superadmin').style.display = 'none';
+                masterOnlyTabs.forEach(id => document.getElementById(id).style.display = 'none');
                 document.getElementById('masterSalonSwitch').style.display = 'none';
+                // Garantir que o usuário normal volte para a aba de agendamentos
+                switchAdminTab('bookings');
             }
 
             // Aplicar cor do salão no painel
@@ -1315,10 +1318,13 @@
             }
 
             loadBookings();
-            fillCustomizeForm();
-            loadServicesList();
-            loadGalleryList();
-            if (isMasterAdmin) loadSuperAdminSalons();
+            // Só carregar dados de personalização se for Master Admin
+            if (isMasterAdmin) {
+                fillCustomizeForm();
+                loadServicesList();
+                loadGalleryList();
+                loadSuperAdminSalons();
+            }
         }
 
         window.switchSalon = async function (slug) {
