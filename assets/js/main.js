@@ -195,7 +195,7 @@ async function renderSalonData(salon) {
     if (salon.hero_image) {
         const heroSection = document.querySelector('.hero');
         if (heroSection) {
-            heroSection.style.background = `linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('${salon.hero_image}') center/cover`;
+            heroSection.style.backgroundImage = `url('${salon.hero_image}')`;
         }
     }
 
