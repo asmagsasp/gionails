@@ -187,8 +187,17 @@ async function renderSalonData(salon) {
         if (sub) sub.innerText = salon.subtitle;
     }
     if (salon.tagline) {
-        const tag = document.getElementById('heroTagline');
-        if (tag) tag.innerText = salon.tagline;
+        const titleEl = document.getElementById('heroTitle');
+        if (titleEl) {
+            if (salon.tagline === 'Arte & Sofisticação em Suas Mãos') {
+                titleEl.innerHTML = `Arte & Sofisticação <br><span>em Suas Mãos</span>`;
+            } else if (salon.tagline.includes('em Suas Mãos')) {
+                const parts = salon.tagline.split('em Suas Mãos');
+                titleEl.innerHTML = `${parts[0]}<br><span>em Suas Mãos</span>`;
+            } else {
+                titleEl.innerText = salon.tagline;
+            }
+        }
     }
 
     // 3. Imagem Hero
